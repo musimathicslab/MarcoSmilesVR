@@ -17,11 +17,6 @@ enabling a deeper connection between the user and the system. In this context,
 virtual reality is not just an upgrade but a transformation that elevates MarcoSmiles to a higher 
 level of musical expression and opens up different scenarios for improvement.
 
-<video width="100%" height="100%" controls autoplay>
-  <source src="./README_IMAGES/3Denv.mp4" type="video/wp4">
- 
-</video>
-
 ## New Features
 In previous versions, one or more _Leap Motion_ was used to capture hand information. 
 However, this dynamic has changed in the VR version, where the use of different technologies 
@@ -139,6 +134,46 @@ the features pertaining to the recorded note are then stored.
 After registering a note, it will be displayed in green on the virtual keyboard.
 
 <p align="center"><img src="./README_IMAGES/TrainScene.png" width="100%" height="100%">
+
+The dataset will be utilized and customized to perform one of the following operations based on different approaches:
+
+1. **Threshold-based Method:**
+   In this approach, features related to hand positions correlated with musical notes are meticulously stored.
+   Subsequently, a threshold is defined as a comparison parameter. During actual use, current hand positions are 
+   compared with those previously recorded in the dataset.
+
+2. **Reinforcement Learning-based Method:**
+   This approach harnesses the power of machine learning through the use of ML-Agents (Machine Learning Agents).
+   Through continuous training and optimization of machine learning agents, MarcoSmiles can progressively enhance 
+   its ability to intelligently interpret various hand positions and actions. 
+   Two approaches have been explored:
+   using the _**ML-Agents Toolkit**_ and implementing a **_Q-Learning script using Python_**.
+
+In the first scenario, the dataset will remain unchanged, while in the second, _**data augmentation**_ will be performed 
+to generate additional samples without extending the duration of the hand position recording phase.
+
+
+
+
+### PlayScene ###
+Currently, the development stage of the PlayScene is still ongoing,as the determination of the methodology
+to be adopted for the aforementioned functionality has not yet been finalized. 
+Within Unity's "_Assets_," there is a partially implemented "_**Main Scene**_" that, at the moment, 
+lacks a fully realized graphical interface but is primarily dedicated to experimenting with the
+**threshold-based method**. In this scene, _**a display has already been integrated to show the predicted note**_,
+and a **_basic Synth has been implemented**_ to facilitate the testing and evaluation process of the system.
+
+
+Regarding the reinforcement learning-based approach (_**Q-Learning**_), 
+it's worth noting that Unity currently doesn't offer native support for Python.
+Therefore, all experiments are currently conducted through the implementation of Python scripts.
+The C# library named _**TorchSharp**_ has been identified and will be used to integrate the trained
+agent within the Unity environment.
+
+
+
+
+
 
 
 
