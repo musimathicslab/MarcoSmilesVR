@@ -1,7 +1,7 @@
 # MarcoSmilesVR
 
 
-<p align="center"><img src="./images/MSVRlogo.png" width="40%" height="40%"></p>
+<p align="center"><img src="./README_IMAGES/MSVRlogo.png" width="40%" height="40%"></p>
 
 ## Project Overview
 
