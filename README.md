@@ -1,4 +1,4 @@
-# <p align="center"> MarcoSmilesVR </p>
+# MarcoSmilesVR
 
 
 <p align="center"><img src="./images/MSVRlogo.png" width="40%" height="40%"></p>
