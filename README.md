@@ -1,4 +1,7 @@
-# MarcoSmilesVR
+# <p align="center"> MarcoSmilesVR </p>
+
+
+<p align="center"><img src="./images/MSVRlogo.png" width="40%" height="40%"></p>
 
 ## Project Overview
 
@@ -25,5 +28,50 @@ Another fundamental evolution concerns the **restructuring of the neural network
 with a specific focus on the **type of learning implemented**. In the current version, 
 we have abandoned the traditional approach to embrace a more advanced model: **reinforcement learning,
 with a special emphasis on the implementation of Q-learning**.
+
+## Built with
+![Static Badge](https://img.shields.io/badge/Unity%202022.3.11f1-616161?style=for-the-badge&logo=unity&labelColor=black&link=https%3A%2F%2Funity.com%2F)
+![Static Badge](https://img.shields.io/badge/Oculus%20HUb%20-%20%231C1E20?style=for-the-badge&logo=Oculus&labelColor=black)
+![Static Badge](https://img.shields.io/badge/Meta%20Quest%20Developer%20Hub%20-%23616161?style=for-the-badge&logo=Meta&labelColor=black)
+![Static Badge](https://img.shields.io/badge/Python%203.10.2-3776AB?style=for-the-badge&logo=python&logoColor=yellow&labelColor=black&link=https%3A%2F%2Fwww.python.org%2Fdownloads%2Frelease%2Fpython-3102%2F)
+![Static Badge](https://img.shields.io/badge/numpy%202.1.4%20-%20%23013243?style=for-the-badge&logo=numpy&labelColor=black)
+![Static Badge](https://img.shields.io/badge/pandas%201.26.2%20-%20%23150458?style=for-the-badge&logo=numpy&labelColor=black)
+![Static Badge](https://img.shields.io/badge/scikit-learn%201.3.2%20-%20%23F7931E?style=for-the-badge&logo=scikit-learn&labelColor=black)
+![Static Badge](https://img.shields.io/badge/Matplotlib%203.8.2-%20%23FFB71B?style=for-the-badge&logo=python&logoColor=%23FFB71B&labelColor=black)
+![Static Badge](https://img.shields.io/badge/PyTorch%202.1.1%20-%20%23EE4C2C?style=for-the-badge&logo=PyTorch&labelColor=black)
+![Static Badge](https://img.shields.io/badge/openaigym%200.26.2%20-%20%230081A5?style=for-the-badge&logo=openaigym&labelColor=black)
+
+## Getting Started
+
+##  ![Static Badge](https://img.shields.io/badge/%20-%20black?style=plastic&logo=Unity&logoColor=white&labelColor=black) Import the Unity Project ##
+1. **Open Unity and create a new project:**
+    - Launch Unity and select "New Project".
+
+2. **Go to "Assets" and select "Import Package" > "Custom Package":**
+    - In the Unity window, go to "Assets" in the menu bar.
+    - Select "Import Package" and then choose "Custom Package".
+
+3. **Choose the package to import:**
+    - Navigate through your file system and select the Unity package (`MarcoSmilesOculusIntegration.unitypackage`) you downloaded from repo.
+
+4. **Select the assets to import:**
+    -  You  will see a list of all the assets in the package.
+    - Ensure you selected all the assets.
+
+5. **Click "Import".**
+
+
+
+At this point, your project has been successfully imported, but there are additional steps required to complete the entire process.
+
+#### From "Package Manager" download and install: ####
+
+    - XR Plugin Managment (v 4.4.0)
+    - XR Core Utilities (v 2.2.3)
+    - XR Hands (v 1.3.0)
+    - XR Interaction Toolkit (v 2.5.2)
+
+
+
 
 
