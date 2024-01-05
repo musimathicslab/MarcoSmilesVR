@@ -41,6 +41,28 @@ with a special emphasis on the implementation of Q-learning**.
 ![Static Badge](https://img.shields.io/badge/PyTorch%202.1.1%20-%20%23EE4C2C?style=for-the-badge&logo=PyTorch&labelColor=black)
 ![Static Badge](https://img.shields.io/badge/openaigym%200.26.2%20-%20%230081A5?style=for-the-badge&logo=openaigym&labelColor=black)
 
+## Table of contents ##
+<!-- TOC -->
+* [MarcoSmilesVR](#marcosmilesvr)
+  * [Project Overview](#project-overview)
+  * [New Features](#new-features)
+  * [Built with](#built-with)
+  * [Getting Started](#getting-started)
+  * [Import the Unity Project](#-import-the-unity-project-)
+      * [From "Package Manager" download and install:](#from-package-manager-download-and-install-)
+  * [Install Python Libraries](#-install-python-libraries-)
+  * [Feature extraction](#feature-extraction-)
+  * [Unity Scenes](#unity-scenes-)
+    * [Training scene](#training-scene-)
+    * [PlayScene](#playscene-)
+  * [Reinforcement Learning](#reinforcement-learning-)
+    * [Creation of training and testing dataset](#creation-of-training-and-testing-dataset-)
+    * [Q-learning](#q-learning-)
+    * [Double Deep Q Learning](#double-deep-q-learning-)
+    * [Step for the training](#step-for-the-training-)
+<!-- TOC -->
+
+
 ## Getting Started
 
 ##  ![Static Badge](https://img.shields.io/badge/%20-%20black?style=plastic&logo=Unity&logoColor=white&labelColor=black) Import the Unity Project ##
@@ -170,11 +192,87 @@ Therefore, all experiments are currently conducted through the implementation of
 The C# library named _**TorchSharp**_ has been identified and will be used to integrate the trained
 agent within the Unity environment.
 
+## Reinforcement Learning ##
+Before proceeding to the training phase, certain steps are required to assemble the training module. 
+Download the "Training Module" directory from the repository and paste it in the desired location. 
+The directory structure is as follows:
+      
+      Training Module
+      ├── DDQN
+      │   ├── basic_buffer.py
+      │   ├── DDQN.py
+      │   ├── MSenv.py
+      │   └── Test_DDQN.py
+      │
+      ├── Q-Table
+      │   ├── QLearn.py
+      │   ├── Test_QLearning.py
+      │
+      ├── DataAugmentation.py 
+      ├── TestDatasetCreation.py 
+      └── WORKDIR_PATH.txt
 
+### Creation of training and testing dataset ###
+Before progressing to the training phase, it is essential to perform specific operations on the dataset to ensure
+its appropriateness for this stage. The current dataset structure, where **each hand configuration 
+is represented by a row containing both label and features**, presents a potential challenge in terms of 
+dataset size.
 
+The _DataAugmentation.py_ script is meticulously crafted to tackle this challenge by generating an augmented dataset 
+tailored for subsequent training phases. In this process, it achieves this goal by creating new samples and 
+applying jittering to the initial values, introducing a controlled element of randomness to enhance the dataset's 
+diversity and robustness.
 
+The  _TestDataSetCreation.py_ script facilitates the generation of a testing dataset from a base dataset, 
+especially useful when using a Unity-prepared scene is not feasible. 
+The script applies jittering to the features of the initial dataset and enables the specification
+of the desired number of features. 
 
+### Q-learning ###
+Q-Learning is a reinforcement learning technique designed for optimal decision-making 
+and it revolves around the concept of a Q-value,
+representing the expected cumulative reward associated with taking a particular action in a specific state.
+The algorithm iteratively updates Q-values based on observed rewards, 
+guiding the agent towards making optimal decisions.
 
+In the context of the scripts within the _"Q-Table"_ folder:
+
+The scripts facilitate the training and testing of an agent based on Q-Learning.
+Throughout the training phase, a Q-Table is generated, containing, for each state, the recommended action.
+This table is saved in a CSV file for subsequent use during execution.
+The Q-Table serves as a comprehensive reference,
+enabling the agent to make informed decisions based on learned optimal
+actions for each state encountered.
+
+### Double Deep Q Learning ###
+The _**Double Deep Q Learning**_ is a technique that extends Q-learning to improve stability and effectiveness
+in learning. In short, it employs two neural networks—one to estimate the q-value of the current action and 
+another to estimate the maximum value of the next action.
+
+- **DDQN.py**: implements Double Deep Q Learning, utilizing two neural networks to enhance learning effectiveness.
+- **MSenv**: represents the training environment used within the context of Double Deep Q Learning.
+- **Test_DDQN**: allows for the evaluation of the trained model using Double Deep Q Learning 
+(generates a confusion matrix plot for performance analysis of the model).
+
+### Step for the training ###
+
+1. **Update Working Directory:**
+   - Modify the contents of the file `WORKDIR_PATH.txt` to reflect the directory path of the Unity working environment.
+
+2. **Generate Training Dataset:**
+   - Open Unity, launch the "_**Training Scene**_" and generate the requisite dataset for the targeted musical notes.
+
+3. **Execute Data Augmentation:**
+   - Run the `DataAugmentation.py` script.
+
+4. **Create Test Dataset:**
+   - Generate the Test dataset either through Unity's "_**Test Scene**_" or artificially using the `TestDatasetCreation.py` script.
+
+5. **Initiate Training:**
+   - Choose and initiate the preferred training methodology from the available options (_Q-Learning or DDQN_).
+
+6. **Evaluate Trained Agent:**
+   - Assess the performance of the recently trained agent using the corresponding testing scripts.
 
 
 
