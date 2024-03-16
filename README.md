@@ -197,21 +197,31 @@ Before proceeding to the training phase, certain steps are required to assemble 
 Download the "Training Module" directory from the repository and paste it in the desired location. 
 The directory structure is as follows:
       
-      Training Module
-      ├── DDQN
-      │   ├── basic_buffer.py
-      │   ├── Double_DQN.py
-      │   ├── DQN.py
-      │   ├── MSenv.py
-      │   └── Test.py
-      │
-      ├── QLearning.py
-      ├── Test_QLearning.py
-      ├── QLearningForFinger.py
-      ├── Test_QLearningForFinger.py
-      ├── DataAugmentation.py
-      ├── DatasetReducer.py
-      ├── TestThreshold.py
+       ├── utils
+          ├── DDQN
+          │   ├── basic_buffer.py
+          │   ├── Double_DQN.py
+          │   ├── DQN.py
+          │   ├── MSenv.py
+          │   └── Test.py
+          │
+          ├── QLearning.py
+          ├── Test_QLearning.py
+          ├── QLearningForFinger.py
+          ├── Test_QLearningForFinger.py
+          ├── DataAugmentation.py
+          ├── DatasetReducer.py
+          ├── TestThreshold.py
+       ├── HGMSD_12.csv
+       ├── HGMSD_24.csv
+       ├── MGMSD_12.csv
+       ├── MGMSD_24.csv
+       ├── min_max_distance.csv
+       ├── open_close_starter_data.csv
+       ├── TestDataset12.csv
+       ├── TestDataset24.csv
+
+
 
 #
 
@@ -222,8 +232,6 @@ representing the expected cumulative reward associated with taking a particular 
 The algorithm iteratively updates Q-values based on observed rewards, 
 guiding the agent towards making optimal decisions.
 
-In the context of the scripts within the _"Q-Table"_ folder:
-
 The scripts facilitate the training and testing of an agent based on Q-Learning.
 Throughout the training phase, a Q-Table is generated, containing, for each state, the recommended action.
 This table is saved in a CSV file for subsequent use during execution.
@@ -231,14 +239,25 @@ The Q-Table serves as a comprehensive reference,
 enabling the agent to make informed decisions based on learned optimal
 actions for each state encountered.
 
-### Double Deep Q Learning ###
-The _**Double Deep Q Learning**_ is a technique that extends Q-learning to improve stability and effectiveness
-in learning. In short, it employs two neural networks—one to estimate the q-value of the current action and 
-another to estimate the maximum value of the next action.
+### Deep Q-Learning (DQN) & Double Deep Q-Learning (Double DQN)
+_Deep Q-Learning (DQN)_ uses a deep neural network to approximate the Q-function 
+instead of a Q-Table, enabling handling of larger state and action spaces. 
+It employs techniques like experience replay and target Q to improve training stability and convergence.
+Experience replay randomly samples past experiences to reduce correlations and enhance effectiveness, 
+while target Q uses two networks, online and target, with the target periodically updated with 
+the weights of the online.
 
-- **DDQN.py**: implements Double Deep Q Learning, utilizing two neural networks to enhance learning effectiveness.
-- **MSenv**: represents the training environment used within the context of Double Deep Q Learning.
-- **Test_DDQN**: allows for the evaluation of the trained model using Double Deep Q Learning 
+_Double Q-Learning_ addresses the problem of overestimation bias in Q-learning by using two _Q-functions_ (_or two DNN_) 
+updated with values from each other. This approach mitigates overestimation by ensuring each function
+learns from different sets of experiences. _Double Deep Q-Learning (Double DQN)_ combines _DQN_ and _Double 
+Q-Learning_, utilizing two networks (online and target) to evaluate actions for the next state. 
+While similar to DQN, Double DQN selects actions via the online network and evaluates them using the 
+target network, thereby refining the learning process.
+
+- **DQN.py**: implements  Deep Q-Learning.
+- **DDQN.py**: implements Double Deep Q Learning.
+- **MSenv**: represents the training environment used.
+- **Test_DDQN**: allows for the evaluation of the trained model 
 (generates a confusion matrix plot for performance analysis of the model).
 
 
