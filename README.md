@@ -200,33 +200,20 @@ The directory structure is as follows:
       Training Module
       ├── DDQN
       │   ├── basic_buffer.py
-      │   ├── DDQN.py
+      │   ├── Double_DQN.py
+      │   ├── DQN.py
       │   ├── MSenv.py
-      │   └── Test_DDQN.py
+      │   └── Test.py
       │
-      ├── Q-Table
-      │   ├── QLearn.py
-      │   ├── Test_QLearning.py
-      │
-      ├── DataAugmentation.py 
-      ├── TestDatasetCreation.py 
-      └── WORKDIR_PATH.txt
+      ├── QLearning.py
+      ├── Test_QLearning.py
+      ├── QLearningForFinger.py
+      ├── Test_QLearningForFinger.py
+      ├── DataAugmentation.py
+      ├── DatasetReducer.py
+      ├── TestThreshold.py
 
-### Creation of training and testing dataset ###
-Before progressing to the training phase, it is essential to perform specific operations on the dataset to ensure
-its appropriateness for this stage. The current dataset structure, where **each hand configuration 
-is represented by a row containing both label and features**, presents a potential challenge in terms of 
-dataset size.
-
-The _DataAugmentation.py_ script is meticulously crafted to tackle this challenge by generating an augmented dataset 
-tailored for subsequent training phases. In this process, it achieves this goal by creating new samples and 
-applying jittering to the initial values, introducing a controlled element of randomness to enhance the dataset's 
-diversity and robustness.
-
-The  _TestDataSetCreation.py_ script facilitates the generation of a testing dataset from a base dataset, 
-especially useful when using a Unity-prepared scene is not feasible. 
-The script applies jittering to the features of the initial dataset and enables the specification
-of the desired number of features. 
+#
 
 ### Q-learning ###
 Q-Learning is a reinforcement learning technique designed for optimal decision-making 
@@ -254,28 +241,91 @@ another to estimate the maximum value of the next action.
 - **Test_DDQN**: allows for the evaluation of the trained model using Double Deep Q Learning 
 (generates a confusion matrix plot for performance analysis of the model).
 
-### Step for the training ###
 
-1. **Update Working Directory:**
-   - Modify the contents of the file `WORKDIR_PATH.txt` to reflect the directory path of the Unity working environment.
+### Type of datasets
+#### Single Instances MarcoSmiles’s Dataset (SIMSD)
+Dataset created for the operation of the threshold-based method, consisting of one instance per hand configuration. Two versions of the dataset were created:
+- **SIDMS-12**: containing data for a single octave, consisting of a total of 12 instances;
+- **SIDMS-24**: containing data relating to two octaves, made up of 24 instances.
 
-2. **Generate Training Dataset:**
-   - Open Unity, launch the "_**Training Scene**_" and generate the requisite dataset for the targeted musical notes.
+<blockquote> 
+To create this type of dataset, it is necessary to:
 
-3. **Execute Data Augmentation:**
-   - Run the `DataAugmentation.py` script.
+>- Access the Training Scene in the Unity editor.
+>- Navigate to the <code>XRInitializer -&gt; HandDataRecorder</code> game object.
+>- Uncheck the box next to the <code>record more instances</code> variable.
+>- Perform the recording phase; the dataset will be saved in MarcoSmiles' working directory.
 
-4. **Create Test Dataset:**
-   - Generate the Test dataset either through Unity's "_**Test Scene**_" or artificially using the `TestDatasetCreation.py` script.
+</blockquote>
 
-5. **Initiate Training:**
-   - Choose and initiate the preferred training methodology from the available options (_Q-Learning or DDQN_).
+#### Human Generated MarcoSmiles’s Dataset (HGMSD)
+   Dataset designed for training agents used in reinforcement learning approaches. It contains for each configuration 500 instances sampled at a rate of 50 recordings per second. As with the previous dataset, two versions were created:
+- **HGMSD-12**: containing the data for a single octave, consisting of 6000 instances;
+- **HGMSD-24**: containing data relating to two octaves, constituted by 12000 instances.
 
-6. **Evaluate Trained Agent:**
-   - Assess the performance of the recently trained agent using the corresponding testing scripts.
+<blockquote>
+To create this type of dataset, it is necessary to:
+
+>- Access the Training Scene in the Unity editor.
+>- Navigate to the <code>XRInitializer -&gt; HandDataRecorder</code> game object.
+>- Check the box next to the <code>record more instances</code> variable.
+>- Set the <code>Number_of_istances</code> variable
+>- Perform the recording phase; the dataset will be saved in MarcoSmiles' working directory.
+
+</blockquote>
+
+#### Machine Generated MarcoSmiles’s Dataset (MGMSD)
+   The aim of this dataset is to provide a sufficient data collection for the training of intelligent agents by minimizing the time required for the dataset creation phase as much as possible. The methodology used has been explained in detail in section 4.3.1 and seeks to create several instances from a single gesture sampling. Two datasets were created:
+- **MGMSD-12**: single octave data (6000 instances);
+- **MGMSD-24**: two octave data (12000 instances).
+<blockquote>
+To create this type of dataset, it is necessary to:
+
+>- Create a SIMSD.
+>- Use the script <code>DataAugmentatiopn.py</code>.
+>- The MGMSD will be saved in the working directory.
+
+</blockquote>
+
+<hr>
+
+In order to obtain a fair evaluation, the same gestures were used for all
+datasets. The HGMSD datasets were generated first and then derived from
+the SIMSD datasets by obtaining the first sampling for each gesture. The
+MGMSD datasets were then derived from the SIMSD datasets. The following
+table outlines the gestures associated with each note.
+
+<p align="center"><img src="./README_IMAGES/HandLegend.jpg" width="50%" height="100%">
+<p align="center"><img src="./README_IMAGES/tableGestures.png" width="50%" height="100%">
+
+<hr>
 
 
+### Step for the training and testing of Threshold approach
 
+1. Generate SIMDS or use an existing one.
+2. Open Unity navigate to Play Scene to test.
+3. To have a visual feedback it is possible to navigate to the Poses gameobject and check, for each pose the variable <code>Visualize Features</code>
+4. It is possible to test this method outside of Unity using the Python script <code>TestThreshold</code>.
+---
+
+### Step for the training and testing of QLearning approach
+
+1. Generate HGMSD/MGMSD or use an existing one.
+2. Start training using `QLearning.py` or `QLearningForFinger.py` depending on the desired method
+3. Start testing using `Test_QLearning.py` or `QLearningForFinger.py` using the generated agent
+
+---
+### Step for the training and testing of DQN or DoubleDQN approach
+
+1. Generate HGMSD/MGMSD or use an existing one.
+2. Start training using `Double_DQN.py` or `DQN.py` depending on the desired method
+3. Start testing using `Test.py` using the generated agent
+
+---
+
+Developed by 
+Salerno Daniele
 
 
 
