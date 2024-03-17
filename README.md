@@ -48,13 +48,13 @@ with a special emphasis on the implementation of Q-learning**.
   * [Built with](#built-with)
   * [Getting Started](#getting-started)
   * [![Static Badge](https://img.shields.io/badge/%20-%20black?style=plastic&logo=Unity&logoColor=white&labelColor=black) Import the Unity Project](#-import-the-unity-project-)
-      * [From "Package Manager" download and install:](#from-package-manager-download-and-install-)
+      * [From "Package Manager" download and install:](#from-package-manager-download-and-install)
   * [![Static Badge](https://img.shields.io/badge/%20-%203776AB?style=plastic&logo=python&logoColor=white&labelColor=%233776ab&color=%233776ab) Install Python Libraries](#-install-python-libraries-)
-  * [Feature extraction](#feature-extraction-)
-  * [Unity Scenes](#unity-scenes-)
-    * [Training scene](#training-scene-)
-    * [PlayScene](#playscene-)
-  * [Reinforcement Learning](#reinforcement-learning-)
+  * [Feature extraction](#feature-extraction)
+  * [Unity Scenes](#unity-scenes)
+    * [Training scene](#training-scene)
+    * [PlayScene](#playscene)
+  * [Reinforcement Learning](#reinforcement-learning)
 
     * [Q-learning](#q-learning-)
     * [Deep Q-Learning (DQN) & Double Deep Q-Learning (Double DQN)](#deep-q-learning-dqn--double-deep-q-learning-double-dqn)
@@ -91,14 +91,14 @@ with a special emphasis on the implementation of Q-learning**.
 
 At this point, your project has been successfully imported, but there are additional steps required to complete the entire process.
 
-#### From "Package Manager" download and install: ####
+#### From "Package Manager" download and install:
 
     - XR Plugin Managment (v 4.4.0)
     - XR Core Utilities (v 2.2.3)
     - XR Hands (v 1.3.0)
     - XR Interaction Toolkit (v 2.5.2)
 
-##  ![Static Badge](https://img.shields.io/badge/%20-%203776AB?style=plastic&logo=python&logoColor=white&labelColor=%233776ab&color=%233776ab) Install Python Libraries 
+##  ![Static Badge](https://img.shields.io/badge/%20-%203776AB?style=plastic&logo=python&logoColor=white&labelColor=%233776ab&color=%233776ab) Install Python Libraries
 The libraries being installed henceforth are exclusively intended for deployment in the reinforcement training phase, 
 given that Unity lacks native Python support. As of now, the wrapper enabling the 
 utilization of trained agents within Unity remains unimplemented. Consequently, 
@@ -152,8 +152,8 @@ of a given hand configuration.
 
 <p align="center"><img src="./README_IMAGES/HandSkeleton.png" width="100%" height="100%"><img src="./README_IMAGES/HandFeatures.png" width="100%" height="100%">
 
-## Unity Scenes 
-### Training scene 
+## Unity Scenes
+### Training scene
 The training scene facilitates the correlation of specific musical notes with corresponding hand positions. 
 Within the scene, a panel is provided for the selection of the note to be trained. Once selected, 
 a countdown initiates, during which the desired hand position must be assumed. Upon completion, 
@@ -182,7 +182,7 @@ to generate additional samples without extending the duration of the hand positi
 
 
 
-### PlayScene 
+### PlayScene
 Currently, the development stage of the PlayScene is still ongoing,as the determination of the methodology
 to be adopted for the aforementioned functionality has not yet been finalized. 
 Within Unity's "_Assets_," there is a partially implemented "_**Main Scene**_" that, at the moment, 
@@ -197,7 +197,7 @@ Therefore, all experiments are currently conducted through the implementation of
 The C# library named _**TorchSharp**_ has been identified and will be used to integrate the trained
 agent within the Unity environment.
 
-## Reinforcement Learning 
+## Reinforcement Learning
 Before proceeding to the training phase, certain steps are required to assemble the training module. 
 Download the "Training Module" directory from the repository and paste it in the desired location. 
 The directory structure is as follows:
@@ -230,7 +230,7 @@ The directory structure is as follows:
 
 #
 
-### Q-learning 
+### Q-learning
 Q-Learning is a reinforcement learning technique designed for optimal decision-making 
 and it revolves around the concept of a Q-value,
 representing the expected cumulative reward associated with taking a particular action in a specific state.
