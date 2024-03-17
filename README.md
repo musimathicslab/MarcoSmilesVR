@@ -49,14 +49,14 @@ with a special emphasis on the implementation of Q-learning**.
   * [Getting Started](#getting-started)
   * [![Static Badge](https://img.shields.io/badge/%20-%20black?style=plastic&logo=Unity&logoColor=white&labelColor=black) Import the Unity Project](#-import-the-unity-project-)
       * [From "Package Manager" download and install:](#from-package-manager-download-and-install)
-  * [![Static Badge](https://img.shields.io/badge/%20-%203776AB?style=plastic&logo=python&logoColor=white&labelColor=%233776ab&color=%233776ab) Install Python Libraries](#-install-python-libraries-)
+  * [![Static Badge](https://img.shields.io/badge/%20-%203776AB?style=plastic&logo=python&logoColor=white&labelColor=%233776ab&color=%233776ab) Install Python Libraries](#-install-python-libraries)
   * [Feature extraction](#feature-extraction)
   * [Unity Scenes](#unity-scenes)
     * [Training scene](#training-scene)
     * [PlayScene](#playscene)
   * [Reinforcement Learning](#reinforcement-learning)
 
-    * [Q-learning](#q-learning-)
+    * [Q-learning](#q-learning)
     * [Deep Q-Learning (DQN) & Double Deep Q-Learning (Double DQN)](#deep-q-learning-dqn--double-deep-q-learning-double-dqn)
     * [Type of datasets](#type-of-datasets)
       * [Single Instances MarcoSmiles’s Dataset (SIMSD)](#single-instances-marcosmiless-dataset-simsd)
@@ -108,7 +108,7 @@ the optimal solution for MarcoSmiles.
 `pip install numpy==2.1.4 pandas==1.26.2 
 scikit-learn==1.3.2 matplotlib==3.8.2 torch==2.1.1 gym==0.26.2`
 
-## Feature extraction 
+## Feature extraction
 The information concerning hand positions is acquired through the hand tracking 
 subsystem of the Meta Quest 3. Once acquired, it is processed using the XRHands 
 package, which enables investigation into the position of each hand joint.
@@ -199,9 +199,10 @@ agent within the Unity environment.
 
 ## Reinforcement Learning
 Before proceeding to the training phase, certain steps are required to assemble the training module. 
-Download the "Training Module" directory from the repository and paste it in the desired location. 
+Download the "Gesture recognition Module" directory from the repository and paste it in the desired location. 
 The directory structure is as follows:
-      
+
+    ├── Gesture Recognition Module      
        ├── utils
           ├── DDQN
           │   ├── basic_buffer.py
