@@ -19,6 +19,20 @@ class DQN(nn.Module):
         self.output_dim = output_dim
 
         self.fc = nn.Sequential(
+            nn.Linear(self.input_dim, self.input_dim * 2),
+            ##nn.Dropout(0.2),
+            nn.ReLU(),
+            nn.Linear(self.input_dim * 2, self.input_dim),
+            #nn.Dropout(0.2),
+            nn.ReLU(),
+            nn.Linear(self.input_dim, self.input_dim // 2),
+            #nn.Dropout(0.2),
+            nn.ReLU(),
+            nn.Linear(self.input_dim // 2, self.output_dim)
+        )
+
+        '''
+        self.fc = nn.Sequential(
             nn.Linear(self.input_dim, 96),
             nn.ReLU(),
             nn.Linear(96, 192),
@@ -27,6 +41,7 @@ class DQN(nn.Module):
             nn.ReLU(),
             nn.Linear(96, self.output_dim)
         )
+        '''
 
     def forward(self, state):
         qvals = self.fc(state)
@@ -106,7 +121,7 @@ class DQNAgent:
 
 #retrieving features and labels
 
-labels,features=retrieve_dataset_pd("your test dataset path")
+labels,features=retrieve_dataset_pd(r"C:\Users\ACER\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\TestDataset12.csv")
 #creating env for MarcoSmiles
 env = MS_env(features,labels)
 
@@ -116,7 +131,7 @@ env = MS_env(features,labels)
 trained_agent = DQNAgent(env)
 
 # Chargin weight
-trained_agent.model.load_state_dict(torch.load("your model path"))
+trained_agent.model.load_state_dict(torch.load(r"C:\Users\ACER\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\utils\DQN_&_Double_DQN\HGMSD_24_50ep_DQN_model.pth"))
 #set the model in evalutation mode
 trained_agent.model.eval()
 
@@ -168,7 +183,7 @@ print(f'Confusion Matrix:\n{conf_matrix}')
 
 # Visualizzazione della Confusion Matrix
 plt.figure(figsize=(8, 6))
-sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=list(range(24)), yticklabels=list(range(24)))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=list(range(12)), yticklabels=list(range(12)))
 plt.title('Confusion Matrix')
 plt.xlabel('Predicted')
 plt.ylabel('True')

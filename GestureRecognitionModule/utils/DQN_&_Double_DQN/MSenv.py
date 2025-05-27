@@ -15,7 +15,7 @@ class MS_env(gym.Env):
         #Action discrete (select note)
         #self.action_space = gym.spaces.Discrete(25)  #(0 to 24)
 
-        self.action_space = gym.spaces.Discrete(25)
+        self.action_space = gym.spaces.Discrete(12)
 
         # index used to chose the next feature to train+
         self.features_index = 0

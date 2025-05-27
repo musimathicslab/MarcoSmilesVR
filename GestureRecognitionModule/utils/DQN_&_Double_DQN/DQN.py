@@ -20,6 +20,19 @@ class DQN(nn.Module):
         self.output_dim = output_dim
 
         self.fc = nn.Sequential(
+            nn.Linear(self.input_dim, self.input_dim * 2),
+            #nn.Dropout(0.2),
+            nn.ReLU(),
+            nn.Linear(self.input_dim * 2, self.input_dim),
+            #nn.Dropout(0.2),
+            nn.ReLU(),
+            nn.Linear(self.input_dim, self.input_dim // 2),
+            #nn.Dropout(0.2),
+            nn.ReLU(),
+            nn.Linear(self.input_dim // 2, self.output_dim)
+        )
+        '''
+        self.fc = nn.Sequential(
             nn.Linear(self.input_dim, 96),
             nn.ReLU(),
             nn.Linear(96, 192),
@@ -28,6 +41,7 @@ class DQN(nn.Module):
             nn.ReLU(),
             nn.Linear(96, self.output_dim)
         )
+        '''
 
     def forward(self, state):
         qvals = self.fc(state)
@@ -44,6 +58,7 @@ class DQNAgent:
         self.replay_buffer = BasicBuffer(max_size=buffer_size)
         self.tau = tau
         #If CUDA available select it, else CPU mode
+        #self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
@@ -77,7 +92,7 @@ class DQNAgent:
         actions = torch.LongTensor(actions).to(self.device)
         rewards = torch.FloatTensor(rewards).to(self.device)
         next_states = torch.FloatTensor(next_states).to(self.device)
-        dones = torch.FloatTensor(dones)
+        dones = torch.FloatTensor(dones).to(self.device)
 
         # resize tensors
         actions = actions.view(actions.size(0))
@@ -132,7 +147,7 @@ def plot_rewards_line(epoch_rewards):
     plt.show()
 
 #retrieving features and labels
-labels,features=retrieve_dataset_pd("Your train dataset path")
+labels,features=retrieve_dataset_pd(r"C:\Users\ACER\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\HGMSD_12.csv")
 #creating env for MarcoSmiles
 env = MS_env(features,labels)
 
@@ -146,7 +161,7 @@ episodes = len(features)
 
 
 batch_size = 64
-epocs = 2
+epocs = 50
 max_steps=10
 epoch_rewards=[]
 episode_rewards =[]
@@ -208,6 +223,7 @@ for e in range(epocs):
         state = env.reset()
         episode_reward = 0
 
+
         for step in range(max_steps):
             action = agent.get_action(state)
             next_state, reward, done, _ = env.step(action)
@@ -225,8 +241,9 @@ for e in range(epocs):
                 break
 
             state = next_state
+        #print("DONE")
+        print(f"EPOCHS {e+1}/{epocs}   Episode: {episode + 1}, Total Reward: {episode_reward}")
 
-        print(f"EPOCHS {e+1}/{epocs}   Episode: {episode + 1}, Total Reward: {episode_reward}",end='\r')
 
     #print(episode_rewards)
     epoch_rewards.append(episode_rewards)
