@@ -1,4 +1,5 @@
 import os
+import sys
 
 import torch
 from torch.utils.data import Dataset, DataLoader, Subset
@@ -10,6 +11,9 @@ import time
 
 from time import sleep
 from sklearn.metrics import accuracy_score
+
+
+log_data=[]
 # --- Dataset sintetico ---
 class IncrementalDataset(Dataset):
     def __init__(self, X=None, y=None):
@@ -35,15 +39,15 @@ class SimpleNet(nn.Module):
         self.output_dim= num_classes
         self.net = nn.Sequential(
             nn.Linear(self.input_dim, self.input_dim * 2),
-            nn.Dropout(0.2),
+            #nn.Dropout(0.2),
             nn.ReLU(),
-            nn.Linear(self.input_dim * 2, self.input_dim),
-            nn.Dropout(0.2),
+            nn.Linear(self.input_dim * 2, self.input_dim*4),
+            #nn.Dropout(0.2),
             nn.ReLU(),
-            nn.Linear(self.input_dim, self.input_dim // 2),
-            nn.Dropout(0.2),
-            nn.ReLU(),
-            nn.Linear(self.input_dim // 2, self.output_dim)
+            nn.Linear(self.input_dim*4, self.input_dim * 2),
+            #nn.Dropout(0.2),
+            #nn.ReLU(),
+            nn.Linear(self.input_dim*2 , self.output_dim)
         )
     def forward(self, x):
         return self.net(x)
@@ -89,14 +93,12 @@ def retrieve_dataset_pd(path_file):
     return y,X
 
 
-def valuating_phase(model, path_file,device):
+def valuating_phase(model, path_file,device,epoch,elapsed_time):
     y_val,x_val = retrieve_dataset_pd(path_file)
     x_val = torch.tensor(x_val, dtype=torch.float32).to(device)
     y_val = torch.tensor(y_val).to(device)
     print(device)
     model.eval()
-
-
 
     with torch.no_grad():
         outputs = model(x_val)
@@ -112,8 +114,13 @@ def valuating_phase(model, path_file,device):
         with open("results.txt", "a") as f:
             f.write(result_string)
 
-        # Stampa a video
-        print(result_string)
+        log_data.append({
+            "epoch": epoch + 1,
+            "accuracy": acc,
+            "time_sec": elapsed_time
+        })
+
+
 
 
 def end_timer(start_time):
@@ -134,14 +141,33 @@ def end_timer(start_time):
     print(f"Tempo trascorso: {hours}h {minutes}m {seconds}s")
     return elapsed
 
+def save_training_log_csv(df_log: pd.DataFrame, train_dataset_path: str, batchsize: int):
+
+    # Ottieni il nome dello script Python corrente, senza estensione
+    script_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
+
+    # Ottieni il nome del dataset di training, senza estensione
+    train_dataset_name = os.path.splitext(os.path.basename(train_dataset_path))[0]
+
+    # Costruisci il nome finale del CSV
+    csv_filename = f"{script_name}_{train_dataset_name}_batch{batchsize}.csv"
+
+    # Salva il DataFrame in CSV
+    df_log.to_csv(csv_filename, index=False)
+
+    print(f"CSV salvato: {csv_filename}")
+
 
 
 # --- Main training ---
 def main(batchsize, epochs,retry_final):
+    start_time = time.time()
+
+    dataset_path= r"C:\Users\Daniele\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\HGMSD_12.csv"
     print(torch.cuda.is_available())
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    y, x = retrieve_dataset_pd(r"C:\Users\ACER\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\HGMSD_12.csv")
+    y, x = retrieve_dataset_pd(dataset_path)
     full_dataset = IncrementalDataset(x, y)
 
     streaming_dataset = IncrementalDataset()
@@ -216,15 +242,18 @@ def main(batchsize, epochs,retry_final):
                 print("Accuracy per classe:")
                 for c in sorted(acc.keys()):
                     print(f"  Classe {c:02d}: {acc[c]:.2%}")
+                valuating_phase(model,r"C:\Users\Daniele\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\TestDataset12.csv",device,i,time.time()-start_time)
 
-
+    print(log_data)
+    df_log = pd.DataFrame(log_data)
+    print(df_log)
+    save_training_log_csv(df_log,dataset_path,batchsize)
 
 
 
     end_timer(starting_time)
-    valuating_phase(model,r"C:\Users\ACER\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\TestDataset12.csv",device)
-    valuating_phase(model, r"C:\Users\ACER\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\HGMSD_12.csv",
-                    device)
+    #valuating_phase(model,r"C:\Users\Daniele\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\HGMSD_12.csv",device)
+
 
 
 if __name__ == "__main__":
@@ -252,7 +281,13 @@ if __name__ == "__main__":
                     f.write(time_str + "\n\n")
     '''
     start_time = time.time()
-    main(batchsize=128, epochs=10, retry_final=500)
+
+    batchsizes = [64, 128, 256, 512]
+    for bs in batchsizes:
+        log_data = []
+        main(batchsize=bs, epochs=10, retry_final=500)
+
+
     elapsed = time.time() - start_time
 
     time_str = f"Elapsed time: {elapsed:.2f} seconds"

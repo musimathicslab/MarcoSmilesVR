@@ -1,16 +1,18 @@
+import os
+
 from MSenv import MS_env, retrieve_dataset_pd
 import torch.nn as nn
 import torch.nn.functional as F
 import pandas as pd
 import numpy as np
-import gym
 import torch
 from basic_buffer import BasicBuffer
 import time
+import gym
 import sys
 from datetime import datetime
 import matplotlib.pyplot as plt
-
+from sklearn.metrics import accuracy_score
 
 class DQN(nn.Module):
 
@@ -21,15 +23,15 @@ class DQN(nn.Module):
 
         self.fc = nn.Sequential(
             nn.Linear(self.input_dim, self.input_dim * 2),
-            #nn.Dropout(0.2),
+            # nn.Dropout(0.2),
             nn.ReLU(),
-            nn.Linear(self.input_dim * 2, self.input_dim),
-            #nn.Dropout(0.2),
+            nn.Linear(self.input_dim * 2, self.input_dim * 4),
+            # nn.Dropout(0.2),
             nn.ReLU(),
-            nn.Linear(self.input_dim, self.input_dim // 2),
-            #nn.Dropout(0.2),
-            nn.ReLU(),
-            nn.Linear(self.input_dim // 2, self.output_dim)
+            nn.Linear(self.input_dim * 4, self.input_dim * 2),
+            # nn.Dropout(0.2),
+            # nn.ReLU(),
+            nn.Linear(self.input_dim * 2, self.output_dim)
         )
         '''
         self.fc = nn.Sequential(
@@ -146,6 +148,58 @@ def plot_rewards_line(epoch_rewards):
     plt.grid(True)
     plt.show()
 
+def save_training_log_csv(df_log: pd.DataFrame, train_dataset_path: str, batchsize: int):
+
+    # Ottieni il nome dello script Python corrente, senza estensione
+    script_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
+
+    # Ottieni il nome del dataset di training, senza estensione
+    train_dataset_name = os.path.splitext(os.path.basename(train_dataset_path))[0]
+
+    # Costruisci il nome finale del CSV
+    csv_filename = f"{script_name}_{train_dataset_name}_batch{batchsize}.csv"
+
+    # Salva il DataFrame in CSV
+    df_log.to_csv(csv_filename, index=False)
+
+    print(f"CSV salvato: {csv_filename}")
+
+
+def validate(epoch,elapsed_time,dataset_test,agent):
+    labels, features = retrieve_dataset_pd(dataset_test)
+    trained_agent= agent
+    trained_agent.model.eval()
+
+    predicted_labels = []
+    for feature, label in zip(features, labels):
+        # Converti i dati in uno stato utilizzabile dal modello
+
+        feature = torch.FloatTensor(feature).float().unsqueeze(0).to(trained_agent.device)
+        print(feature)
+        print(label)
+
+        # Fai una predizione utilizzando il modello addestrato
+        # predicted_qvals = trained_agent.model(feature)
+        predicted_qvals = trained_agent.model(feature)
+
+        # Ottieni l'azione predetta
+        predicted_action = torch.argmax(predicted_qvals.cpu().detach()).item()
+
+        print(f"Predicted Action: {predicted_action}")
+
+        predicted_labels.append(predicted_action)
+
+    # Accuracy
+    accuracy = accuracy_score(labels, predicted_labels)
+    print(f'Accuracy: {accuracy}')
+
+    log_data.append({
+        "epoch": epoch + 1,
+        "accuracy": accuracy,
+        "time_sec": elapsed_time
+    })
+
+
 #retrieving features and labels
 labels,features=retrieve_dataset_pd(r"C:\Users\Daniele\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\HGMSD_12.csv")
 #creating env for MarcoSmiles
@@ -160,8 +214,8 @@ agent= DQNAgent(env)
 episodes = len(features)
 
 
-batch_size = 64
-epocs = 2
+batch_size = 256
+epocs = 20
 max_steps=10
 epoch_rewards=[]
 episode_rewards =[]
@@ -217,8 +271,14 @@ for i in range(5, 0, -1):
 
 
 
-for e in range(epocs):
 
+dataset_test_path= r"C:\Users\Daniele\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\TestDataset12.csv"
+log_data=[]
+start_time=time.time()
+elapsed_training_time = 0
+
+for e in range(epocs):
+    epoch_train_start = time.time()  # inizio training
     for episode in range(episodes):
         state = env.reset()
         episode_reward = 0
@@ -244,9 +304,21 @@ for e in range(epocs):
         #print("DONE")
         print(f"EPOCHS {e+1}/{epocs}   Episode: {episode + 1}, Total Reward: {episode_reward}")
 
+    epoch_train_end = time.time()
 
+    # Aggiorna il tempo cumulativo effettivo di training
+    elapsed_training_time += epoch_train_end - epoch_train_start
+
+
+    validate(agent=agent,epoch=e,elapsed_time=elapsed_training_time,dataset_test=dataset_test_path)
     #print(episode_rewards)
     epoch_rewards.append(episode_rewards)
+
+print(log_data)
+df_log = pd.DataFrame(log_data)
+print(df_log)
+save_training_log_csv(df_log,dataset_test_path,batch_size)
+
 #print(epoch_rewards)
 #plot_rewards_line(epoch_rewards)
 

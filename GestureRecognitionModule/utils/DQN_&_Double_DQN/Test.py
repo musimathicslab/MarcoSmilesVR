@@ -1,3 +1,7 @@
+
+import matplotlib
+matplotlib.use("TkAgg")
+
 import numpy as np
 import pandas as pd
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
@@ -119,9 +123,10 @@ class DQNAgent:
             target_param.data.copy_(self.tau * param + (1 - self.tau) * target_param)
 
 
-#retrieving features and labels
 
-labels,features=retrieve_dataset_pd(r"C:\Users\ACER\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\TestDataset12.csv")
+
+
+labels,features=retrieve_dataset_pd(r"C:\Users\Daniele\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\TestDataset12.csv")
 #creating env for MarcoSmiles
 env = MS_env(features,labels)
 
@@ -131,7 +136,7 @@ env = MS_env(features,labels)
 trained_agent = DQNAgent(env)
 
 # Chargin weight
-trained_agent.model.load_state_dict(torch.load(r"C:\Users\ACER\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\utils\DQN_&_Double_DQN\HGMSD_24_50ep_DQN_model.pth"))
+trained_agent.model.load_state_dict(torch.load(r"C:\Users\Daniele\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\utils\DQN_&_Double_DQN\HGMSD_24_2ep_DQN_model.pth"))
 #set the model in evalutation mode
 trained_agent.model.eval()
 
@@ -188,3 +193,5 @@ plt.title('Confusion Matrix')
 plt.xlabel('Predicted')
 plt.ylabel('True')
 plt.show()
+
+
