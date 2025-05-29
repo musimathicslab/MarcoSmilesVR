@@ -55,6 +55,8 @@ class MS_env(gym.Env):
        
         pass
 
+    def get_correct_action(self):
+        return self.actual_label
 
 def retrieve_dataset_pd(path_file):
     path = path_file

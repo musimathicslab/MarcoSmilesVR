@@ -11,7 +11,7 @@ import numpy as np
 
 
 cartella_csv = "."
-keyword = "DQN_with"
+keyword = "FULL_"
 
 # Costruisce la lista dei file CSV che contengono la parola chiave nel nome
 pattern = os.path.join(cartella_csv, "*.csv")
