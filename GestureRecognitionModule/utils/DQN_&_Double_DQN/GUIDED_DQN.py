@@ -147,8 +147,8 @@ class DQNAgent:
         max_next_Q = torch.max(next_Q, dim=1, keepdim=True)[0]
 
         # Compute expected Q values
-        expected_Q = rewards + (1 - dones) * self.gamma * max_next_Q
-
+        #expected_Q = rewards + (1 - dones) * self.gamma * max_next_Q
+        expected_Q = rewards
         # Compute the MSE loss
         loss = F.mse_loss(curr_Q, expected_Q.detach())
 

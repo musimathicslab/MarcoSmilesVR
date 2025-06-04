@@ -14,6 +14,8 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
 
+
+action_counter=[];
 class DQN(nn.Module):
 
     def __init__(self, input_dim, output_dim):
@@ -110,6 +112,10 @@ class DQNAgent:
         max_next_Q = torch.max(next_Q, 1)[0]
         max_next_Q = max_next_Q.view(max_next_Q.size(0), 1)
         expected_Q = rewards + (1 - dones) * self.gamma * max_next_Q
+
+
+
+
         loss = F.mse_loss(curr_Q, expected_Q.detach())
         
 
@@ -214,7 +220,7 @@ agent= DQNAgent(env)
 episodes = len(features)
 
 
-batch_size = 256
+batch_size = 128
 epocs = 20
 max_steps=10
 epoch_rewards=[]
