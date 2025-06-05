@@ -30,7 +30,7 @@ class DQN(nn.Module):
             nn.ReLU(),
             nn.Linear(self.input_dim * 4, self.input_dim * 2),
             # nn.Dropout(0.2),
-            # nn.ReLU(),
+            nn.ReLU(),
             nn.Linear(self.input_dim * 2, self.output_dim)
         )
         '''
@@ -66,9 +66,9 @@ class DQNAgent:
 
         #creating 2 model
         #Model that chose the actions
-        self.model = DQN(96, env.action_space.n).to(self.device)
+        self.model = DQN(2304, env.action_space.n).to(self.device)
         #Target that evaluate the actions
-        self.target_model = DQN(96, env.action_space.n).to(self.device)
+        self.target_model = DQN(2304, env.action_space.n).to(self.device)
 
         # hard copy model parameters to target model parameters
         for target_param, param in zip(self.model.parameters(), self.target_model.parameters()):
@@ -78,7 +78,15 @@ class DQNAgent:
 
 
     def get_action(self, state, eps=0.20, forced_action=None):
-        state = torch.FloatTensor(state).float().unsqueeze(0).to(self.device)
+
+        state_np = np.array(state, dtype=np.float32)
+        print("Raw state:", state)
+        print("State as numpy array:", state_np)
+        print("Shape:", state_np.shape)
+
+        #state = torch.FloatTensor(state).float().unsqueeze(0).to(self.device)
+        state_np = np.array(state, dtype=np.float32).flatten()
+        state = torch.tensor(state_np, dtype=torch.float32).unsqueeze(0).to(self.device)
         real_action_prob=0
         #GUIDED ACTION
         if forced_action is not None:
@@ -168,6 +176,50 @@ class DQNAgent:
             target_param.data.copy_(self.tau * param + (1 - self.tau) * target_param)
 
 
+# === PARAMETRI DI CODIFICA ===
+char_map = {'A': 0, 'G': 1, 'C': 2, 'T': 3}
+base = 4
+one_hot_size = 24  # 6 lettere * 4 posizioni (esamero in base-4)
+
+# === 1. Funzione di codifica one-hot ===
+def hexamer_to_one_hot(hexamer):
+    one_hot = [0] * one_hot_size
+    for i, char in enumerate(hexamer):
+        val = char_map.get(char, 0)  # default 0
+        one_hot[i * 4 + val] = 1
+    return one_hot
+
+# === 2. Legge il file TSV e crea tensori ===
+def load_data_from_tsv(tsv_path):
+    features = []
+    labels = []
+
+    with open(tsv_path, 'r') as f:
+        header = f.readline().strip().split('\t')  # salta intestazione
+        for line in f:
+            row = dict(zip(header, line.strip().split('\t')))
+            label = int(row['label'])
+            hexamers = row['sequence'].strip().split()
+
+            encoded = []
+            for h in hexamers:
+                onehot = hexamer_to_one_hot(h)
+                encoded.extend(onehot)
+
+            features.append(encoded)
+            labels.append(label)
+
+    # Padding (tutte le sequenze devono avere la stessa lunghezza)
+    max_len = max(len(f) for f in features)
+    for i in range(len(features)):
+        while len(features[i]) < max_len:
+            features[i].append(0)
+
+    X = torch.tensor(features, dtype=torch.float32)
+
+    y = torch.tensor(labels, dtype=torch.long)
+    return y, X
+
 
 def plot_rewards_line(epoch_rewards):
     plt.figure(figsize=(10, 6))
@@ -200,7 +252,9 @@ def save_training_log_csv(df_log: pd.DataFrame, train_dataset_path: str, batchsi
 
 
 def validate(epoch,elapsed_time,dataset_test,agent):
-    labels, features = retrieve_dataset_pd(dataset_test)
+    #labels, features = retrieve_dataset_pd(dataset_test)
+    labels, features = load_data_from_tsv(dataset_test)
+
     trained_agent= agent
     trained_agent.model.eval()
 
@@ -235,11 +289,12 @@ def validate(epoch,elapsed_time,dataset_test,agent):
 
 
 #retrieving features and labels
-labels,features=retrieve_dataset_pd(r"C:\Users\ACER\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\utils\BIOINFORMATIC test\train_csv.csv")
+#labels,features=retrieve_dataset_pd(r"C:\Users\ACER\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\utils\BIOINFORMATIC test\train_csv.csv")
+labels,features = load_data_from_tsv(r"C:\Users\Daniele\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\utils\BIOINFORMATIC test\train.tsv")
 #creating env for MarcoSmiles
 env = MS_env(features,labels)
 
-
+print(features)
 
 agent= DQNAgent(env)
 
@@ -307,7 +362,7 @@ for i in range(5, 0, -1):
 log_data=[]
 def train(batch,epochs,guided):
     agent = DQNAgent(env)
-    dataset_test_path= r"C:\Users\ACER\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\utils\BIOINFORMATIC test\test_csv.csv"
+    dataset_test_path= r"C:\Users\Daniele\Documents\GitHub\MarcoSmilesVR\GestureRecognitionModule\utils\BIOINFORMATIC test\dev.tsv"
 
     start_time=time.time()
     elapsed_training_time = 0

@@ -1,6 +1,13 @@
 import gym
 import pandas as pd
 import numpy as np
+import torch
+
+# === PARAMETRI DI CODIFICA ===
+char_map = {'A': 0, 'G': 1, 'C': 2, 'T': 3}
+base = 4
+one_hot_size = 24  # 6 lettere * 4 posizioni (esamero in base-4)
+
 
 
 class MS_env(gym.Env):
@@ -9,7 +16,7 @@ class MS_env(gym.Env):
 
         # Observation space 48 float value (24 for each hand)
         self.observation_space = gym.spaces.Tuple((
-            gym.spaces.Box(low=0, high=1, shape=(96,), dtype=np.float32),
+            gym.spaces.Box(low=0, high=1, shape=(2304,), dtype=np.float32),
         ))
 
         #Action discrete (select note)
@@ -70,6 +77,45 @@ def retrieve_dataset_pd(path_file):
     X = df.drop("label", axis=1).values
     print(type(y))
 
+
+
     return y,X
 
 
+# === 1. Funzione di codifica one-hot ===
+def hexamer_to_one_hot(hexamer):
+    one_hot = [0] * one_hot_size
+    for i, char in enumerate(hexamer):
+        val = char_map.get(char, 0)  # default 0
+        one_hot[i * 4 + val] = 1
+    return one_hot
+
+# === 2. Legge il file TSV e crea tensori ===
+def load_data_from_tsv(tsv_path):
+    features = []
+    labels = []
+
+    with open(tsv_path, 'r') as f:
+        header = f.readline().strip().split('\t')  # salta intestazione
+        for line in f:
+            row = dict(zip(header, line.strip().split('\t')))
+            label = int(row['label'])
+            hexamers = row['sequence'].strip().split()
+
+            encoded = []
+            for h in hexamers:
+                onehot = hexamer_to_one_hot(h)
+                encoded.extend(onehot)
+
+            features.append(encoded)
+            labels.append(label)
+
+    # Padding (tutte le sequenze devono avere la stessa lunghezza)
+    max_len = max(len(f) for f in features)
+    for i in range(len(features)):
+        while len(features[i]) < max_len:
+            features[i].append(0)
+
+    X = torch.tensor(features, dtype=torch.float32)
+    y = torch.tensor(labels, dtype=torch.long)
+    return X, y
