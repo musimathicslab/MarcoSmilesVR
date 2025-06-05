@@ -46,7 +46,7 @@ class MS_env(gym.Env):
 
         else:
             reward = 0
-            done=False
+            done=True
 
        
         return self.state, reward, done, {}

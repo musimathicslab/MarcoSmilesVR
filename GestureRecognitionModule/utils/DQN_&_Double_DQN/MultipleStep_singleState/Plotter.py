@@ -58,7 +58,7 @@ def save_stats(statistiche, titolo_tabella=""):
 
 
 cartella_csv = "."
-keyword = "NO_GUIDED"
+keyword = "NO_Target_NO"
 stats=[]
 # Costruisce la lista dei file CSV che contengono la parola chiave nel nome
 pattern = os.path.join(cartella_csv, "*.csv")

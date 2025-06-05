@@ -147,8 +147,8 @@ class DQNAgent:
         max_next_Q = torch.max(next_Q, dim=1, keepdim=True)[0]
 
         # Compute expected Q values
-        #expected_Q = rewards + (1 - dones) * self.gamma * max_next_Q
-        expected_Q = rewards
+        expected_Q = rewards + (1 - dones) * self.gamma * max_next_Q
+        #expected_Q = rewards
         # Compute the MSE loss
         loss = F.mse_loss(curr_Q, expected_Q.detach())
 
@@ -321,10 +321,10 @@ def train(batch,epochs,guided):
             for step in range(max_steps):
                 if(guided):
                     action = agent.get_action(state,forced_action=env.get_correct_action())
-                    addinfo="FULL_"
+                    addinfo="FULL_GUIDED_"
                 else:
                     action = agent.get_action(state)
-                    addinfo = "NO_Target_NO_"
+                    addinfo = "NO_GUIDED"
 
                 next_state, reward, done, _ = env.step(action)
                 #print(state, "-", action, "-", reward, "-", next_state, "-", done, )
@@ -384,8 +384,9 @@ for bs in batchs:
     #GUIDED ONE
     log_data = []
     train(bs,20,True)
-'''for bs in batchs:
+
+for bs in batchs:
     #NOT GUIDED
     log_data = []
     train(bs,20,False)
-'''
+
