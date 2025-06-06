@@ -324,7 +324,7 @@ def train(batch,epochs,guided):
                     addinfo="FULL_GUIDED_"
                 else:
                     action = agent.get_action(state)
-                    addinfo = "NO_GUIDED"
+                    addinfo = "NO_GUIDED_mul_step_notarget"
 
                 next_state, reward, done, _ = env.step(action)
                 #print(state, "-", action, "-", reward, "-", next_state, "-", done, )
@@ -380,11 +380,11 @@ def train(batch,epochs,guided):
 
 
 batchs=[64,128,256]
-for bs in batchs:
+'''for bs in batchs:
     #GUIDED ONE
     log_data = []
     train(bs,20,True)
-
+'''
 for bs in batchs:
     #NOT GUIDED
     log_data = []

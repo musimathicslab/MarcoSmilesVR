@@ -119,7 +119,7 @@ def Plot(keyword):
     save_stats(stats,titolo_tabella=prefix_comune)
 
 
-keyword=['FULL','PROB','CLASSIC']
+keyword=['GUIDED',]
 
 for k in keyword:
     Plot(k)
