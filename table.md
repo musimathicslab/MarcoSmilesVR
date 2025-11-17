@@ -13,9 +13,9 @@ The hand poses correspond to those reported in Table *Gestures*.
 
 ### 2B (0-1)
 
-| Accuracy | Precision |
-|---------|-----------|
-| 18.44%  | 14.70%    |
+| Accuracy  |  Precision  |
+|:---------:|:-----------:|
+|  18.44%   |   14.70%    |
 
 ![Confusion Matrix](Images/HGMSD_24/QTable-HGMSD_24_2B.png)
 
@@ -24,7 +24,7 @@ The hand poses correspond to those reported in Table *Gestures*.
 ### 3B (0-2)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 16.99%  | 13.33%    |
 
 ![Confusion Matrix](Images/HGMSD_24/QTable-HGMSD_24_3B.png)
@@ -34,7 +34,7 @@ The hand poses correspond to those reported in Table *Gestures*.
 ### 4B (0-3)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 17.77%  | 14.00%    |
 
 ![Confusion Matrix](Images/HGMSD_24/QTable-HGMSD_24_4B.png)
@@ -44,7 +44,7 @@ The hand poses correspond to those reported in Table *Gestures*.
 ### 10B (0-9)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 15.23%  | 12.17%    |
 
 ![Confusion Matrix](Images/HGMSD_24/QTable-HGMSD_24_10B.png)
@@ -54,7 +54,7 @@ The hand poses correspond to those reported in Table *Gestures*.
 ### 50B (0-49)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 11.16%  | 9.15%     |
 
 ![Confusion Matrix](Images/HGMSD_24/QTable-HGMSD_24_50B.png)
@@ -74,7 +74,7 @@ A new experiment was conducted using only the **20 features with the largest dyn
 ### 2B (0-1)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 85.25%  | 80.09%    |
 
 ![Confusion Matrix](Images/20fEATURE/QTable-HGMSD_24_2B_20F.png)
@@ -84,7 +84,7 @@ A new experiment was conducted using only the **20 features with the largest dyn
 ### 3B (0-2)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 81.81%  | 77.72%    |
 
 ![Confusion Matrix](Images/20fEATURE/QTable-HGMSD_24_3B_20F.png)
@@ -94,7 +94,7 @@ A new experiment was conducted using only the **20 features with the largest dyn
 ### 4B (0-3)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 75.13%  | 71.66%    |
 
 ![Confusion Matrix](Images/20fEATURE/QTable-HGMSD_24_4B_20F.png)
@@ -104,7 +104,7 @@ A new experiment was conducted using only the **20 features with the largest dyn
 ### 10B (0-9)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 47.78%  | 42.24%    |
 
 ![Confusion Matrix](Images/20fEATURE/QTable-HGMSD_24_10B_20F.png)
@@ -122,7 +122,7 @@ A further simplification was tested by retaining only fingertip-joint features: 
 ### 2B (0-1)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 97.14%  | 97.25%    |
 
 ![Confusion Matrix](Images/10F/QTable-HGMSD_24_2B_12F.png)
@@ -132,7 +132,7 @@ A further simplification was tested by retaining only fingertip-joint features: 
 ### 3B (0-2)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 92.97%  | 93.66%    |
 
 ![Confusion Matrix](Images/10F/QTable-HGMSD_24_3B_12F.png)
@@ -142,7 +142,7 @@ A further simplification was tested by retaining only fingertip-joint features: 
 ### 4B (0-3)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 83.90%  | 95.47%    |
 
 ![Confusion Matrix](Images/10F/QTable-HGMSD_24_4B_12F.png)
@@ -152,7 +152,7 @@ A further simplification was tested by retaining only fingertip-joint features: 
 ### 10B (0-9)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 50.42%  | 49.06%    |
 
 ![Confusion Matrix](Images/10F/QTable-HGMSD_24_10B_12F.png)
@@ -170,7 +170,7 @@ An alternative reduction strategy aggregated all features belonging to each fing
 ### 2B (0-1)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 79.87%  | 77.16%    |
 
 ![Confusion Matrix](Images/FingerMethod/QTable_HGMSD_24_D2_10e_fINGER_T.jpeg)
@@ -180,7 +180,7 @@ An alternative reduction strategy aggregated all features belonging to each fing
 ### 3B (0-2)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 58.22%  | 50.61%    |
 
 ![Confusion Matrix](Images/FingerMethod/QTable_HGMSD_24_D3_10e_fINGER_T.jpeg)
@@ -190,7 +190,7 @@ An alternative reduction strategy aggregated all features belonging to each fing
 ### 4B (0-3)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 51.67%  | 43.08%    |
 
 ![Confusion Matrix](Images/FingerMethod/QTable_HGMSD_24_D4_10e_fINGER_T.jpeg)
@@ -200,7 +200,7 @@ An alternative reduction strategy aggregated all features belonging to each fing
 ### 10B (0-9)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 26.13%  | 20.15%    |
 
 ![Confusion Matrix](Images/FingerMethod/QTable_HGMSD_24_D10_10e_fINGER_T.jpeg)
@@ -218,7 +218,7 @@ A degradation in performance was observed as the bin count increased. To investi
 ### 2B (0-1)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 53.50%  | 47.75%    |
 
 ![Confusion Matrix](Images/FingerMethod/QTable_TestDataset_24_D2_10e_fINGER_T.jpeg)
@@ -228,7 +228,7 @@ A degradation in performance was observed as the bin count increased. To investi
 ### 3B (0-2)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 69.35%  | 60.02%    |
 
 ![Confusion Matrix](Images/FingerMethod/QTable_TestDataset_24_D3_10e_fINGER_T.jpeg)
@@ -238,7 +238,7 @@ A degradation in performance was observed as the bin count increased. To investi
 ### 4B (0-3)
 
 | Accuracy | Precision |
-|---------|-----------|
+|:---------:|:-----------:|
 | 65.70%  | 57.63%    |
 
 ![Confusion Matrix](Images/FingerMethod/QTable_TestDataset_24_D4_10e_fINGER_T.jpeg)
@@ -247,9 +247,9 @@ A degradation in performance was observed as the bin count increased. To investi
 
 ### 10B (0-9)
 
-| Accuracy | Precision |
-|---------|-----------|
-| 43.15%  | 32.17%    |
+| Accuracy  |  Precision  |
+|:---------:|:-----------:|
+|  43.15%   |   32.17%    |
 
 ![Confusion Matrix](Images/FingerMethod/QTable_TestDataset_24_D10_10e_fINGER_T.jpeg)
 
@@ -259,9 +259,9 @@ A degradation in performance was observed as the bin count increased. To investi
 
 ### DQN – HGMSD-12
 
-| Accuracy | Precision |
-|---------|-----------|
-| 98.12%  | 98.20%    |
+| Accuracy  |  Precision  |
+|:---------:|:-----------:|
+|  98.12%   |   98.20%    |
 
 ![Confusion Matrix](Images/DQN/DQN_HGMSD-12.png)
 
@@ -269,9 +269,9 @@ A degradation in performance was observed as the bin count increased. To investi
 
 ### DQN – HGMSD-24
 
-| Accuracy | Precision |
-|---------|-----------|
-| 98.93%  | 98.97%    |
+| Accuracy  |  Precision  |
+|:---------:|:-----------:|
+|  98.93%   |   98.97%    |
 
 ![Confusion Matrix](Images/DQN/DQN_HGMSD-24.png)
 
@@ -279,9 +279,9 @@ A degradation in performance was observed as the bin count increased. To investi
 
 ### Double DQN – HGMSD-12
 
-| Accuracy | Precision |
-|---------|-----------|
-| 97.35%  | 97.15%    |
+| Accuracy  |  Precision  |
+|:---------:|:-----------:|
+|  97.35%   |   97.15%    |
 
 ![Confusion Matrix](Images/DQN&DDQN/DDQN_HGMSD_12.png)
 
@@ -289,9 +289,9 @@ A degradation in performance was observed as the bin count increased. To investi
 
 ### Double DQN – HGMSD-24
 
-| Accuracy | Precision |
-|---------|-----------|
-| 98.33%  | 98.45%    |
+| Accuracy  |  Precision  |
+|:---------:|:-----------:|
+|  98.33%   |   98.45%    |
 
 ![Confusion Matrix](Images/DQN&DDQN/DDQN_HGMSD_24.png)
 
@@ -335,11 +335,11 @@ with open(file_path, mode='a', newline='') as file:
             writer.writerow(tempArr)
         counter += 1
 ```
-
 ### DQN – MGMSD-12
 
-**Accuracy:** 94.45%  
-**Precision:** 95.58%
+| Accuracy | Precision |
+|:--------:|:---------:|
+| 94.45%   | 95.58%    |
 
 ![DQN – MGMSD-12 - Confusion Matrix](Images/DQN/DQN_MGMSD-12.png)
 
@@ -347,8 +347,9 @@ with open(file_path, mode='a', newline='') as file:
 
 ### DQN – MGMSD-24
 
-**Accuracy:** 97.77%  
-**Precision:** 97.94%
+| Accuracy | Precision |
+|:--------:|:---------:|
+| 97.77%   | 97.94%    |
 
 ![DQN – MGMSD-24 - Confusion Matrix](Images/DQN/DQN_MGMSD_24_NEW.jpg)
 
@@ -356,8 +357,9 @@ with open(file_path, mode='a', newline='') as file:
 
 ### Double DQN – MGMSD-12
 
-**Accuracy:** 97.10%  
-**Precision:** 97.17%
+| Accuracy | Precision |
+|:--------:|:---------:|
+| 97.10%   | 97.17%    |
 
 ![Double DQN – MGMSD-12 - Confusion Matrix](Images/DQN&DDQN/DDQN_MGMSD_12.png)
 
@@ -365,7 +367,8 @@ with open(file_path, mode='a', newline='') as file:
 
 ### Double DQN – MGMSD-24
 
-**Accuracy:** 97.70%  
-**Precision:** 97.85%
+| Accuracy | Precision |
+|:--------:|:---------:|
+| 97.70%   | 97.85%    |
 
-![Double DQN – MGMSD-24 - Confusion Matrix](Images/DQN&DDQN/DDQN_mGMSD_24.png)
+![Double DQN – MGMSD-24 - Confusion Matrix](Images/DQN&DDQN/DDQN_MGMSD_24.png)
